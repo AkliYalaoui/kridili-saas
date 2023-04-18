@@ -4,6 +4,7 @@ import LoginScreen from "./screens/Login";
 import HomeScreen from "./screens/Home";
 import TransactionsScreen from "./screens/Transactions";
 import DetailsScreen from "./screens/Details";
+import ClientsScreen from "./screens/Clients";
 import ProfileScreen from "./screens/Profile";
 import { UserContextProvider, useUser } from "./contexts/UserContext";
 
@@ -17,6 +18,7 @@ const Screens = () => {
     <>
       <Stack.Screen name="Accueil" component={HomeScreen} />
       <Stack.Screen name="Transactions" component={TransactionsScreen} />
+      <Stack.Screen name="Clients" component={ClientsScreen} />
       <Stack.Screen name="Details" component={DetailsScreen} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
     </>

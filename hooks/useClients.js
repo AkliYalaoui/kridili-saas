@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { supabase } from '../lib/initSupabase';
+import { supabase } from "../lib/initSupabase";
 
-const useClients = () => {
+const useClients = (get, keywords) => {
   const [clients, setClients] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -10,7 +10,18 @@ const useClients = () => {
     try {
       setError(null);
       setLoading(true);
-      const res = await supabase.from("clients").select();
+      let res;
+      if (get === "worse") {
+        res = await supabase.rpc("get_worse_clients");
+      } else if (get === "search") {
+        res = await supabase
+          .from("clients")
+          .select()
+          .filter("full_name", "ilike", `%${keywords}%`);
+      } else {
+        res = await supabase.from("clients").select();
+      }
+      console.log(get);
       console.log(res);
       if (res.error) throw res.error;
       setClients(res.data);
@@ -24,7 +35,7 @@ const useClients = () => {
 
   useEffect(() => {
     getClients();
-  }, []);
+  }, [keywords]);
 
   return { clients, setClients, loading, error };
 };

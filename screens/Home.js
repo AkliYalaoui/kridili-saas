@@ -2,11 +2,14 @@ import { useState } from "react";
 import { StyleSheet, Text, SafeAreaView, View } from "react-native";
 import PlusButton from "../components/PlusButton";
 import RecentTransaction from "../components/RecentTransaction";
+import MostDebtedClient from "../components/MostDebtedClient";
 import AddClientTransaction from "../components/AddClientTransaction";
 import useTransactions from "../hooks/useTransactions";
+import useClients from "../hooks/useClients";
 
 const Home = ({ navigation }) => {
   const { transactions } = useTransactions();
+  const { clients } = useClients("worse");
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
@@ -16,7 +19,9 @@ const Home = ({ navigation }) => {
         data={transactions}
         navigation={navigation}
       />
-      <View style={styles.section}></View>
+      <View style={styles.section}>
+        <MostDebtedClient data={clients} navigation={navigation} />
+      </View>
       <AddClientTransaction
         visible={modalVisible}
         onClose={() => setModalVisible(false)}

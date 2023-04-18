@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../lib/initSupabase";
 
-const useTransactions = (get, date) => {
+const useTransactions = (get, filter) => {
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -15,7 +15,13 @@ const useTransactions = (get, date) => {
         res = await supabase
           .from("transactions")
           .select("*,client_id(*)")
-          .eq("created_at", date)
+          .eq("created_at", filter["selectedDated"])
+          .order("created_at", { ascending: false });
+      } else if (get === "client") {
+        res = await supabase
+          .from("transactions")
+          .select("*")
+          .eq("client_id", filter["clientID"])
           .order("created_at", { ascending: false });
       } else {
         res = await supabase
@@ -36,6 +42,7 @@ const useTransactions = (get, date) => {
     }
   }
 
+  const date = filter?.selectedDated;
   useEffect(() => {
     getTransactions();
   }, [date]);

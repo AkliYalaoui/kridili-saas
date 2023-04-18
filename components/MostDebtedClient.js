@@ -6,17 +6,13 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-const MostDebtedClient = ({ style, data }) => {
+const MostDebtedClient = ({ data, navigation }) => {
   return (
-    <View style={style}>
+    <View style={{ marginTop: 10 }}>
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <Text style={{ ...styles.whiteText, fontWeight: "bold" }}>
-          Top Clients
-        </Text>
+        <Text style={{ fontWeight: "bold", fontSize: 18 }}>Total Crédits</Text>
         <TouchableOpacity onPress={() => navigation.navigate("Clients")}>
-          <Text style={{ ...styles.whiteText, fontWeight: "bold" }}>
-            Voir tout
-          </Text>
+          <Text style={{ fontWeight: "bold" }}>Voir tout</Text>
         </TouchableOpacity>
       </View>
       <FlatList
@@ -24,12 +20,19 @@ const MostDebtedClient = ({ style, data }) => {
         horizontal={true}
         data={data}
         renderItem={({ item }) => (
-          <View style={styles.recentCard}>
+          <TouchableOpacity
+            style={styles.recentCard}
+            onPress={() =>
+              navigation.navigate("Details", { clientID: item.id })
+            }
+          >
             <Text
               style={styles.whiteText}
             >{`${item.first_name} ${item.last_name}`}</Text>
-            <Text style={{ ...styles.whiteText }}>{`${item.total} DZ`}</Text>
-          </View>
+            <Text
+              style={{ ...styles.whiteText, opacity: 0.5 }}
+            >{`${item.total} DZ`}</Text>
+          </TouchableOpacity>
         )}
         keyExtractor={(item) => item.id}
       />
@@ -39,15 +42,21 @@ const MostDebtedClient = ({ style, data }) => {
 
 const styles = StyleSheet.create({
   whiteText: {
-    color: "#fff",
+    color: "#222",
+    fontSize: 20,
+    fontWeight: "bold",
   },
   recentCard: {
     padding: 10,
-    backgroundColor: "#333",
+    backgroundColor: "#ddd",
     borderRadius: 10,
-    width: 150,
-    height: 150,
+    width: 140,
+    height: 100,
     marginRight: 10,
+    elevation: 5,
+    shadowColor: "#000000",
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
   },
 });
 

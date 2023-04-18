@@ -9,14 +9,14 @@ import {
 import { Calendar } from "react-native-calendars";
 import useTransactions from "../hooks/useTransactions";
 
-const Transactions = () => {
+const Transactions = ({ navigation }) => {
   const today = new Date();
   const year = today.getFullYear();
   const month = (today.getMonth() + 1).toString().padStart(2, "0");
   const day = today.getDate().toString().padStart(2, "0");
   const maxDate = `${year}-${month}-${day}`;
   const [selectedDated, setSelectedDate] = useState(maxDate);
-  const { transactions } = useTransactions("date", selectedDated);
+  const { transactions } = useTransactions("date", { selectedDated });
   return (
     <View>
       <View
@@ -60,7 +60,12 @@ const Transactions = () => {
         <FlatList
           data={transactions}
           renderItem={({ item }) => (
-            <View style={styles.transaction}>
+            <TouchableOpacity
+              style={styles.transaction}
+              onPress={() =>
+                navigation.navigate("Details", { clientID: item.client_id.id })
+              }
+            >
               <View>
                 <Text
                   style={{ fontSize: 18, fontWeight: "bold" }}
@@ -70,7 +75,7 @@ const Transactions = () => {
                 </Text>
               </View>
               <Text style={{ fontWeight: "bold" }}>{`${item.amount} DZ`}</Text>
-            </View>
+            </TouchableOpacity>
           )}
           keyExtractor={(item) => item.id}
         />

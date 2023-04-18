@@ -11,12 +11,10 @@ const RecentTransaction = ({ style, data, navigation }) => {
     <View style={style}>
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <Text style={{ ...headerstyles.whiteText, fontWeight: "bold" }}>
-          Transactions récentes
+          Crédits Récentes
         </Text>
         <TouchableOpacity onPress={() => navigation.navigate("Transactions")}>
-          <Text style={{ ...headerstyles.whiteText, fontWeight: "bold" }}>
-            Voir tout
-          </Text>
+          <Text style={{ color: "#fff", fontWeight: "bold" }}>Voir tout</Text>
         </TouchableOpacity>
       </View>
       <FlatList
@@ -24,7 +22,12 @@ const RecentTransaction = ({ style, data, navigation }) => {
         horizontal={true}
         data={data}
         renderItem={({ item }) => (
-          <View style={headerstyles.recentCard}>
+          <TouchableOpacity
+            style={headerstyles.recentCard}
+            onPress={() =>
+              navigation.navigate("Details", { clientID: item.client_id.id })
+            }
+          >
             <Text
               style={headerstyles.whiteText}
             >{`${item.client_id.first_name} ${item.client_id.last_name}`}</Text>
@@ -34,7 +37,7 @@ const RecentTransaction = ({ style, data, navigation }) => {
             <Text
               style={{ ...headerstyles.whiteText }}
             >{`${item.amount} DZ`}</Text>
-          </View>
+          </TouchableOpacity>
         )}
         keyExtractor={(item) => item.id}
       />
@@ -45,7 +48,7 @@ const RecentTransaction = ({ style, data, navigation }) => {
 const headerstyles = StyleSheet.create({
   whiteText: {
     color: "#fff",
-    fontSize:18
+    fontSize: 18,
   },
   recentCard: {
     padding: 10,
