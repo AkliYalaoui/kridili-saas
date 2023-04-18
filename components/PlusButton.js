@@ -2,30 +2,36 @@ import React from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-const PlusButton = ({ onPress }) => {
+const PlusButton = ({
+  accessibilityLabel,
+  accessibilityState,
+  onPress,
+  onLongPress,
+}) => {
+  const focused = accessibilityState.selected;
   return (
-    <View style={styles.container}>
-      <TouchableOpacity style={styles.button} onPress={onPress}>
-        <Ionicons name="add" size={32} color="white" />
-      </TouchableOpacity>
-    </View>
+    <TouchableOpacity
+      style={{
+        ...styles.button,
+        backgroundColor: focused ? "#e26a00" : "#212121",
+      }}
+      onPress={onPress}
+      onLongPress={onLongPress}
+      accessibilityLabel={accessibilityLabel}
+    >
+      <Ionicons name="add" size={32} color="white" />
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    position: "absolute",
-    bottom: 20,
-    right: 20,
-    zIndex: 1,
-  },
   button: {
-    backgroundColor: "#121212",
-    borderRadius: 50,
-    width: 64,
-    height: 64,
+    top: -20,
     justifyContent: "center",
     alignItems: "center",
+    height: 60,
+    width: 60,
+    borderRadius: 30,
   },
 });
 

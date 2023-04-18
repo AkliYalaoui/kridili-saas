@@ -1,10 +1,12 @@
 import { useState } from "react";
 import {
   View,
+  SafeAreaView,
   FlatList,
   Text,
   TouchableOpacity,
   StyleSheet,
+  StatusBar,
 } from "react-native";
 import { Calendar } from "react-native-calendars";
 import useTransactions from "../hooks/useTransactions";
@@ -18,73 +20,81 @@ const Transactions = ({ navigation }) => {
   const [selectedDated, setSelectedDate] = useState(maxDate);
   const { transactions } = useTransactions("date", { selectedDated });
   return (
-    <View>
-      <View
-        style={{
-          padding: 10,
-          margin: 10,
-          borderRadius: 20,
-          backgroundColor: "#121212",
-        }}
-      >
-        <Calendar
-          maxDate={maxDate}
-          onDayPress={(day) => {
-            console.log("selected day", day);
-            setSelectedDate(day.dateString);
-          }}
-          theme={{
-            backgroundColor: "#121212",
-            calendarBackground: "#121212",
-            textSectionTitleColor: "#b6c1cd",
-            selectedDayBackgroundColor: "#00adf5",
-            selectedDayTextColor: "#ffffff",
-            todayTextColor: "#00adf5",
-            dayTextColor: "#2d4150",
-            textDisabledColor: "#d9e1e8",
-            dotColor: "#00adf5",
-            selectedDotColor: "#ffffff",
-            arrowColor: "orange",
-            monthTextColor: "#fff",
-            textDayFontFamily: "monospace",
-            textMonthFontFamily: "monospace",
-            textDayHeaderFontFamily: "monospace",
-            textDayFontSize: 16,
-            textMonthFontSize: 16,
-            textDayHeaderFontSize: 16,
-          }}
-        />
-      </View>
-
-      <View style={{ marginVertical: 15, paddingHorizontal: 10 }}>
-        <FlatList
-          data={transactions}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              style={styles.transaction}
-              onPress={() =>
-                navigation.navigate("Details", { clientID: item.client_id.id })
-              }
-            >
-              <View>
-                <Text
-                  style={{ fontSize: 18, fontWeight: "bold" }}
-                >{`${item.client_id.first_name} ${item.client_id.last_name}`}</Text>
-                <Text style={{ opacity: 0.5 }}>
-                  {new Date(item.created_at).toLocaleDateString()}
-                </Text>
-              </View>
-              <Text style={{ fontWeight: "bold" }}>{`${item.amount} DZ`}</Text>
-            </TouchableOpacity>
-          )}
-          keyExtractor={(item) => item.id}
-        />
-      </View>
-    </View>
+    <SafeAreaView style={styles.appContainer}>
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        data={transactions}
+        ListHeaderComponent={
+          <View
+            style={{
+              padding: 2,
+              margin: 10,
+              borderRadius: 20,
+              backgroundColor: "#e26a00",
+            }}
+          >
+            <Calendar
+              maxDate={maxDate}
+              onDayPress={(day) => {
+                console.log("selected day", day);
+                setSelectedDate(day.dateString);
+              }}
+              theme={{
+                backgroundColor: "#e26a00",
+                calendarBackground: "#e26a00",
+                textSectionTitleColor: "#b6c1cd",
+                selectedDayBackgroundColor: "#fff",
+                selectedDayTextColor: "#ffffff",
+                todayTextColor: "#00adf5",
+                dayTextColor: "#2d4150",
+                textDisabledColor: "#d9e1e8",
+                dotColor: "#00adf5",
+                selectedDotColor: "#ffffff",
+                arrowColor: "#000",
+                monthTextColor: "#fff",
+                textDayFontFamily: "monospace",
+                textMonthFontFamily: "monospace",
+                textDayHeaderFontFamily: "monospace",
+                textDayFontSize: 16,
+                textMonthFontSize: 16,
+                textDayHeaderFontSize: 16,
+              }}
+            />
+          </View>
+        }
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            style={styles.transaction}
+            onPress={() =>
+              navigation.navigate("Details", {
+                clientID: item.client_id.id,
+              })
+            }
+          >
+            <View>
+              <Text
+                style={{ fontSize: 18, fontWeight: "bold" }}
+              >{`${item.client_id.first_name} ${item.client_id.last_name}`}</Text>
+              <Text style={{ opacity: 0.5 }}>
+                {new Date(item.created_at).toLocaleDateString()}
+              </Text>
+            </View>
+            <Text style={{ fontWeight: "bold" }}>{`${item.amount} DZ`}</Text>
+          </TouchableOpacity>
+        )}
+        keyExtractor={(item) => item.id}
+      />
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  appContainer: {
+    flex: 1,
+    marginTop: StatusBar.currentHeight || 0,
+    paddingTop: 20,
+    paddingHorizontal: 20,
+  },
   transaction: {
     padding: 10,
     width: "100%",

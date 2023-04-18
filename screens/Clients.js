@@ -1,10 +1,13 @@
 import {
   View,
+  ScrollView,
+  SafeAreaView,
   Text,
   TextInput,
   StyleSheet,
   TouchableOpacity,
   FlatList,
+  StatusBar,
 } from "react-native";
 import { useState } from "react";
 import useClients from "../hooks/useClients";
@@ -13,16 +16,19 @@ const Clients = ({ navigation }) => {
   const [keywords, setKeywords] = useState("");
   const { clients } = useClients("search", keywords);
   return (
-    <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        onChangeText={(value) => setKeywords(value)}
-        value={keywords}
-        placeholder="Rechercher un client"
-      />
+    <SafeAreaView style={styles.appContainer}>
       <FlatList
+        showsVerticalScrollIndicator={false}
         style={{ marginVertical: 15, paddingHorizontal: 10 }}
         data={clients}
+        ListHeaderComponent={
+          <TextInput
+            style={styles.input}
+            onChangeText={(value) => setKeywords(value)}
+            value={keywords}
+            placeholder="Rechercher un client"
+          />
+        }
         renderItem={({ item }) => (
           <TouchableOpacity
             style={styles.card}
@@ -38,14 +44,16 @@ const Clients = ({ navigation }) => {
         )}
         keyExtractor={(item) => item.id}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  appContainer: {
     flex: 1,
-    padding: 5,
+    marginTop: StatusBar.currentHeight || 0,
+    paddingTop: 40,
+    paddingHorizontal: 20,
   },
   input: {
     height: 50,

@@ -10,33 +10,31 @@ const RecentTransaction = ({ style, data, navigation }) => {
   return (
     <View style={style}>
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <Text style={{ ...headerstyles.whiteText, fontWeight: "bold" }}>
-          Crédits Récentes
-        </Text>
+        <Text style={{ fontWeight: 500, fontSize: 17 }}>Récents</Text>
         <TouchableOpacity onPress={() => navigation.navigate("Transactions")}>
-          <Text style={{ color: "#fff", fontWeight: "bold" }}>Voir tout</Text>
+          <Text style={{ fontWeight: 500 }}>Voir tout</Text>
         </TouchableOpacity>
       </View>
       <FlatList
         style={{ marginVertical: 15, paddingHorizontal: 10 }}
+        showsHorizontalScrollIndicator={false}
         horizontal={true}
         data={data}
         renderItem={({ item }) => (
           <TouchableOpacity
-            style={headerstyles.recentCard}
+            style={headerstyles.card}
             onPress={() =>
               navigation.navigate("Details", { clientID: item.client_id.id })
             }
           >
             <Text
-              style={headerstyles.whiteText}
+              style={headerstyles.title}
             >{`${item.client_id.first_name} ${item.client_id.last_name}`}</Text>
-            <Text style={{ ...headerstyles.whiteText, opacity: 0.5 }}>
+            <Text style={headerstyles.price}>{`${item.amount} Dz`}</Text>
+            <Text style={headerstyles.description}>{item.description}</Text>
+            <Text style={{ opacity: 0.5, fontSize: 12 }}>
               {new Date(item.created_at).toLocaleDateString()}
             </Text>
-            <Text
-              style={{ ...headerstyles.whiteText }}
-            >{`${item.amount} DZ`}</Text>
           </TouchableOpacity>
         )}
         keyExtractor={(item) => item.id}
@@ -46,17 +44,35 @@ const RecentTransaction = ({ style, data, navigation }) => {
 };
 
 const headerstyles = StyleSheet.create({
-  whiteText: {
-    color: "#fff",
-    fontSize: 18,
-  },
-  recentCard: {
-    padding: 10,
-    backgroundColor: "#333",
+  card: {
+    backgroundColor: "white",
     borderRadius: 10,
-    width: 150,
-    height: 100,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
+    padding: 10,
     marginRight: 10,
+  },
+  title: {
+    fontWeight: "bold",
+    fontSize: 18,
+    marginBottom: 5,
+  },
+  price: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#e26a00",
+    marginBottom: 5,
+  },
+  description: {
+    fontSize: 14,
+    color: '#666',
   },
 });
 

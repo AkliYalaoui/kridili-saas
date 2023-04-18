@@ -1,13 +1,13 @@
 import {
   View,
+  SafeAreaView,
   Text,
   StyleSheet,
-  TouchableOpacity,
+  StatusBar,
   FlatList,
 } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
-import { Picker } from "@react-native-picker/picker";
 import { supabase } from "../lib/initSupabase";
 import useTransactions from "../hooks/useTransactions";
 
@@ -50,110 +50,112 @@ const Details = () => {
   }, [clientID]);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.appContainer}>
       {!loading && !error && (
-        <>
-          <View style={styles.clientInfo}>
-            <Text
-              style={styles.fullName}
-            >{`${client?.first_name} ${client?.last_name}`}</Text>
-            <Text style={styles.clientMetaData}>
-              Description : {client?.description}
-            </Text>
-            <Text style={styles.clientMetaData}>
-              Créé le : {new Date(client?.created_at).toLocaleDateString()}
-            </Text>
-          </View>
-          {stats && (
-            <View style={{ flexDirection: "row", marginVertical: 15 }}>
-              <View
-                style={{
-                  flex: 1,
-                  backgroundColor: "#fff",
-                  borderRadius: 10,
-                  elevation: 5,
-                  shadowColor: "#000000",
-                  shadowOpacity: 0.3,
-                  shadowRadius: 5,
-                  padding: 10,
-                  marginRight: 5,
-                }}
-              >
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          ListHeaderComponent={
+            <>
+              <View style={styles.clientInfo}>
                 <Text
-                  style={{
-                    fontWeight: "bold",
-                    fontSize: 25,
-                    textAlign: "center",
-                  }}
-                >
-                  {stats.nbr}
+                  style={styles.fullName}
+                >{`${client?.first_name} ${client?.last_name}`}</Text>
+                <Text style={styles.clientMetaData}>
+                  Description : {client?.description}
                 </Text>
-                <Text style={{ textAlign: "center", opacity: 0.5 }}>
-                  Nombre de Crédits
+                <Text style={styles.clientMetaData}>
+                  Créé le : {new Date(client?.created_at).toLocaleDateString()}
                 </Text>
               </View>
-              <View
-                style={{
-                  flex: 1,
-                  backgroundColor: "#fff",
-                  borderRadius: 10,
-                  elevation: 5,
-                  shadowColor: "#000000",
-                  shadowOpacity: 0.3,
-                  shadowRadius: 5,
-                  padding: 10,
-                }}
-              >
-                <Text
-                  style={{
-                    fontWeight: "bold",
-                    fontSize: 25,
-                    textAlign: "center",
-                  }}
-                >
-                  {`${stats.total}`}
-                </Text>
-                <Text style={{ textAlign: "center", opacity: 0.5 }}>
-                  Somme de Crédits (Dz)
-                </Text>
-              </View>
-            </View>
-          )}
-          <View style={{ marginVertical: 15, paddingHorizontal: 10 }}>
-            <Text
-              style={{
-                fontWeight: "bold",
-                fontSize: 20,
-                marginBottom: 6,
-              }}
-            >
-              Liste des crédits
-            </Text>
-            <FlatList
-              data={transactions}
-              renderItem={({ item }) => (
-                <View style={styles.transaction}>
-                  <Text
-                    style={{ fontSize: 22, fontWeight: "bold" }}
-                  >{`${item.amount} DZ`}</Text>
-                  <Text style={{ opacity: 0.5 }}>
-                    {new Date(item.created_at).toLocaleDateString()}
-                  </Text>
+              {stats && (
+                <View style={{ flexDirection: "row", marginVertical: 15 }}>
+                  <View
+                    style={{
+                      flex: 1,
+                      backgroundColor: "#fff",
+                      borderRadius: 10,
+                      elevation: 5,
+                      shadowColor: "#000000",
+                      shadowOpacity: 0.3,
+                      shadowRadius: 5,
+                      padding: 10,
+                      marginRight: 5,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontWeight: "bold",
+                        fontSize: 25,
+                        textAlign: "center",
+                      }}
+                    >
+                      {stats.nbr}
+                    </Text>
+                    <Text style={{ textAlign: "center", opacity: 0.5 }}>
+                      Nombre de Crédits
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      flex: 1,
+                      backgroundColor: "#fff",
+                      borderRadius: 10,
+                      elevation: 5,
+                      shadowColor: "#000000",
+                      shadowOpacity: 0.3,
+                      shadowRadius: 5,
+                      padding: 10,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontWeight: "bold",
+                        fontSize: 25,
+                        textAlign: "center",
+                      }}
+                    >
+                      {`${stats.total}`}
+                    </Text>
+                    <Text style={{ textAlign: "center", opacity: 0.5 }}>
+                      Somme de Crédits (Dz)
+                    </Text>
+                  </View>
                 </View>
               )}
-              keyExtractor={(item) => item.id}
-            />
-          </View>
-        </>
+              <Text
+                style={{
+                  fontWeight: "bold",
+                  fontSize: 20,
+                  marginBottom: 6,
+                }}
+              >
+                Liste des crédits
+              </Text>
+            </>
+          }
+          data={transactions}
+          renderItem={({ item }) => (
+            <View style={styles.transaction}>
+              <Text
+                style={{ fontSize: 22, fontWeight: "bold" }}
+              >{`${item.amount} DZ`}</Text>
+              <Text style={{ opacity: 0.5 }}>
+                {new Date(item.created_at).toLocaleDateString()}
+              </Text>
+            </View>
+          )}
+          keyExtractor={(item) => item.id}
+        />
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  appContainer: {
     flex: 1,
-    padding: 10,
+    marginTop: StatusBar.currentHeight || 0,
+    paddingHorizontal: 20,
   },
   clientInfo: {
     backgroundColor: "#fff",
