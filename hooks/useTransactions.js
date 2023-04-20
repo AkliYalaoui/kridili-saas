@@ -47,7 +47,7 @@ const useTransactions = (get, filter) => {
     getTransactions();
   }, [date]);
 
-  return { transactions,setTransactions, loading, error };
+  return { transactions,setTransactions,getTransactions, loading, error };
 };
 
 export default useTransactions;

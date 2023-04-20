@@ -26,12 +26,12 @@ const Clients = ({ navigation }) => {
             <Text style={styles.title}>Rechercher Vos Clients</Text>
             <Text style={styles.secondary_title}>veuillez entrer un nom</Text>
             <View style={styles.search_container}>
-              {/* <TextInput
+              <TextInput
                 style={styles.input}
                 onChangeText={(value) => setKeywords(value)}
                 value={keywords}
                 placeholder="Rechercher un client"
-              /> */}
+              />
               <TouchableOpacity style={styles.search_btn}>
                 <Ionicons name="search-outline" size={32} color="white" />
               </TouchableOpacity>

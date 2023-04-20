@@ -5,24 +5,40 @@ import {
   StatusBar,
   ScrollView,
   Text,
+  RefreshControl,
 } from "react-native";
 import DebtsPerDay from "../components/DebtsPerDay";
 import RecentTransaction from "../components/RecentTransaction";
 import MostDebtedClient from "../components/MostDebtedClient";
 import useTransactions from "../hooks/useTransactions";
 import useClients from "../hooks/useClients";
+import useChartData from "../hooks/useChartData";
 
 const Home = ({ navigation }) => {
-  const { transactions } = useTransactions();
-  const { clients } = useClients("worse");
-  const [modalVisible, setModalVisible] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+  const { transactions, getTransactions } = useTransactions();
+  const { clients, getClients } = useClients("worse");
+  const { labels, dataset, getData } = useChartData();
+
+  const handleRefresh = () => {
+    setRefreshing(true);
+    getTransactions();
+    getClients();
+    getData();
+    setRefreshing(false);
+  };
 
   return (
     <SafeAreaView style={styles.appContainer}>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
+        }
+      >
         <Text style={styles.title}>Gérer votre magasin.</Text>
         <Text style={styles.title}>Gérer vos crédits.</Text>
-        <DebtsPerDay style={styles.section} />
+        <DebtsPerDay style={styles.section} labels={labels} dataset={dataset} />
         <RecentTransaction
           style={styles.section}
           data={transactions}

@@ -38,7 +38,7 @@ const useClients = (get, keywords) => {
     getClients();
   }, [keywords]);
 
-  return { clients, setClients, loading, error };
+  return { clients, setClients,getClients, loading, error };
 };
 
 export default useClients;
