@@ -184,17 +184,18 @@ const styles = StyleSheet.create({
   input: {
     height: 50,
     borderWidth: 1,
-    borderRadius: 5,
+    borderColor:"#aaa",
+    borderRadius: 8,
     padding: 10,
     marginVertical: 10,
   },
   inputLabel: {
-    fontWeight: "600",
+    fontWeight: 400,
     fontSize: 18,
   },
   button: {
     height: 50,
-    backgroundColor: "#121212",
+    backgroundColor: "#e26a00",
     borderRadius: 5,
     alignItems: "center",
     justifyContent: "center",

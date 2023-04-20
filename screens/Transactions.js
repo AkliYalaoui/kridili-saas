@@ -8,6 +8,7 @@ import {
   StyleSheet,
   StatusBar,
 } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import { Calendar } from "react-native-calendars";
 import useTransactions from "../hooks/useTransactions";
 
@@ -71,15 +72,27 @@ const Transactions = ({ navigation }) => {
               })
             }
           >
-            <View>
-              <Text
-                style={{ fontSize: 18, fontWeight: "bold" }}
-              >{`${item.client_id.first_name} ${item.client_id.last_name}`}</Text>
-              <Text style={{ opacity: 0.5 }}>
+            <Ionicons name="pricetags-outline" size={32} color="#e26a00" />
+            <View style={{ marginLeft: 10, flex: 1 }}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <Text
+                  style={{ fontSize: 20, fontWeight: 500 }}
+                >{`${item.client_id.first_name} ${item.client_id.last_name}`}</Text>
+                <Text style={{ fontWeight: 400 }}>{`${item.amount} DZ`}</Text>
+              </View>
+              <Text style={{ fontSize: 14, opacity: 0.7 }}>
+                {item.description}
+              </Text>
+              <Text style={{ fontSize: 12, opacity: 0.5, textAlign: "right" }}>
                 {new Date(item.created_at).toLocaleDateString()}
               </Text>
             </View>
-            <Text style={{ fontWeight: "bold" }}>{`${item.amount} DZ`}</Text>
           </TouchableOpacity>
         )}
         keyExtractor={(item) => item.id}
@@ -96,15 +109,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   transaction: {
-    padding: 10,
+    padding: 15,
     width: "100%",
-    backgroundColor: "#eee",
     borderRadius: 10,
     marginVertical: 5,
     flexDirection: "row",
-    justifyContent: "space-between",
+    alignItems: "center",
     elevation: 5,
-    shadowColor: "#000000",
+    shadowColor: "#ccc",
     shadowOpacity: 0.3,
     shadowRadius: 5,
   },

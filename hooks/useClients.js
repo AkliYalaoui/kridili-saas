@@ -17,7 +17,8 @@ const useClients = (get, keywords) => {
         res = await supabase
           .from("clients")
           .select()
-          .filter("full_name", "ilike", `%${keywords}%`);
+          .filter("full_name", "ilike", `%${keywords}%`)
+          .limit(30);
       } else {
         res = await supabase.from("clients").select();
       }

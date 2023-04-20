@@ -7,20 +7,20 @@ const Tabs = ({ tab, onTabChange }) => {
       <TouchableOpacity
         style={{
           ...styles.button,
-          backgroundColor: tab === 0 ? "#222" : "#fff",
+          backgroundColor: tab === 0 ? "#e26a00" : "#fff",
         }}
         onPress={() => onTabChange(0)}
       >
-        <Text style={{ color: tab === 0 ? "#fff" : "#000" }}>Transaction</Text>
+        <Text style={{ color: tab === 0 ? "#fff" : "#e26a00" }}>Crédits</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={{
           ...styles.button,
-          backgroundColor: tab === 1 ? "#222" : "#fff",
+          backgroundColor: tab === 1 ? "#e26a00" : "#fff",
         }}
         onPress={() => onTabChange(1)}
       >
-        <Text style={{ color: tab === 1 ? "#fff" : "#000" }}>Client</Text>
+        <Text style={{ color: tab === 1 ? "#fff" : "#e26a00" }}>Client</Text>
       </TouchableOpacity>
     </View>
   );
@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 1,
+    borderColor:"#e26a00",
     padding: 10,
     flex: 1,
   },
