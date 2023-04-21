@@ -2,7 +2,6 @@ import { useState } from "react";
 import {
   View,
   Text,
-  Switch,
   TextInput,
   TouchableOpacity,
   StyleSheet,
@@ -13,6 +12,7 @@ import { Picker } from "@react-native-picker/picker";
 import useClients from "../hooks/useClients";
 import Tabs from "../components/Tabs";
 import { supabase } from "../lib/initSupabase";
+import { useUser } from "../contexts/UserContext";
 
 const AddClientTransaction = ({ navigation }) => {
   const { clients, setClients } = useClients();
@@ -30,6 +30,7 @@ const AddClientTransaction = ({ navigation }) => {
   });
 
   const [tab, setTab] = useState(0);
+  const { user } = useUser();
 
   const onChangeTransaction = (field, value) => {
     setTransaction((prev) => ({ ...prev, [field]: value }));
@@ -40,7 +41,6 @@ const AddClientTransaction = ({ navigation }) => {
 
   const handleTransactionCreation = async () => {
     try {
-      console.log(transaction);
       const { data, error } = await supabase
         .from("transactions")
         .insert([transaction]);
@@ -52,14 +52,13 @@ const AddClientTransaction = ({ navigation }) => {
   };
   const handleClientCreation = async () => {
     try {
-      console.log(client);
       const { data, error } = await supabase
         .from("clients")
         .insert([client])
-        .single();
+        .select("*");
       console.log({ data, error });
       if (error) throw error;
-      setClients((prev) => [data, ...prev]);
+      setClients((prev) => [data[0], ...prev]);
     } catch (err) {
       console.error(err);
     }
@@ -134,9 +133,7 @@ const AddClientTransaction = ({ navigation }) => {
             <Text style={styles.inputLabel}>Somme</Text>
             <TextInput
               style={styles.input}
-              onChangeText={(value) =>
-                onChangeTransaction("amount", parseInt(value))
-              }
+              onChangeText={(value) => onChangeTransaction("amount", value)}
               value={transaction.amount}
               keyboardType="numeric"
             />
@@ -151,7 +148,7 @@ const AddClientTransaction = ({ navigation }) => {
               value={transaction.description}
             />
           </View>
-          <View>
+          {/* <View>
             <Text style={styles.inputLabel}>Etat</Text>
             <Switch
               trackColor={{ false: "#767577", true: "#81b0ff" }}
@@ -162,7 +159,7 @@ const AddClientTransaction = ({ navigation }) => {
               }
               value={transaction.paid}
             />
-          </View>
+          </View> */}
           <TouchableOpacity
             style={styles.button}
             onPress={handleTransactionCreation}
@@ -179,12 +176,13 @@ const styles = StyleSheet.create({
   appContainer: {
     flex: 1,
     marginTop: StatusBar.currentHeight || 0,
+    paddingTop: 40,
     paddingHorizontal: 20,
   },
   input: {
     height: 50,
     borderWidth: 1,
-    borderColor:"#aaa",
+    borderColor: "#aaa",
     borderRadius: 8,
     padding: 10,
     marginVertical: 10,

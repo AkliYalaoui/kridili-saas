@@ -15,7 +15,7 @@ export const UserContextProvider = ({ children }) => {
         console.log({ data, error });
         if (error) throw error;
         setSession(data.session);
-        setUser(session?.user ?? null);
+        setUser(data?.session?.user ?? null);
         supabase.auth.onAuthStateChange(async (event, session) => {
           console.log(`Supabase auth event: ${event}`);
           setSession(session);

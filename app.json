@@ -21,10 +21,17 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.akliyalaoui.kridili"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f0c8cb95-9c92-49a3-8b6f-11726b938850"
+      }
+    },
+    "owner": "akliyalaoui"
   }
 }

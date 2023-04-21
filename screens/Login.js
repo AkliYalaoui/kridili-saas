@@ -35,6 +35,8 @@ const Login = () => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>Kridili</Text>
+      <Text style={styles.sub_title}>Gérer vos crédits avec précision</Text>
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -54,7 +56,7 @@ const Login = () => {
         onPress={handleLogin}
         disabled={loading}
       >
-        <Text style={styles.buttonText}>Login</Text>
+        <Text style={styles.buttonText}>se connecter</Text>
       </TouchableOpacity>
     </View>
   );
@@ -66,10 +68,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  title: {
+    fontSize: 40,
+    fontWeight: 500,
+    fontStyle: "italic",
+  },
+  sub_title: {
+    color: "#555",
+    marginBottom: 20,
+  },
   input: {
     width: "80%",
     height: 50,
     borderWidth: 1,
+    borderColor: "#aaa",
     borderRadius: 5,
     padding: 10,
     marginVertical: 10,
@@ -77,7 +89,7 @@ const styles = StyleSheet.create({
   button: {
     width: "80%",
     height: 50,
-    backgroundColor: "#121212",
+    backgroundColor: "#e26a00",
     borderRadius: 5,
     alignItems: "center",
     justifyContent: "center",
@@ -85,6 +97,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     fontSize: 18,
+    textTransform:"capitalize"
   },
   errorText: {
     color: "#2c0b0e",

@@ -60,8 +60,8 @@ function MainTabs() {
 }
 
 const Screens = () => {
-  const user = "AB";
-  // const { user } = useUser();
+  // const user = "AB";
+  const { user } = useUser();
 
   const render = user ? (
     <>
@@ -73,7 +73,7 @@ const Screens = () => {
       <Stack.Screen name="Details" component={DetailsScreen} />
     </>
   ) : (
-    <Stack.Screen name="Login" component={LoginScreen} />
+    <Stack.Screen  options={{ headerShown: false }} name="Login" component={LoginScreen} />
   );
 
   return (
